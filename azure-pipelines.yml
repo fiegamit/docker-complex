@@ -28,30 +28,37 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - task: DockerCompose@0
+    - task: Docker@2
       inputs:
-        containerregistrytype: 'Azure Container Registry'
-        azureSubscription: 'Free Trial (d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b)'
-        azureContainerRegistry: '{"loginServer":"dockertestcr.azurecr.io", "id" : "/subscriptions/d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b/resourceGroups/testRG/providers/Microsoft.ContainerRegistry/registries/dockerTestCR"}'
-        dockerComposeFile: '**/docker-compose.yml'
-        action: 'Build services'
-    - task: DockerCompose@0
+        containerRegistry: 'dockerTestCR'
+        repository: 'fiegamitdockercomplex_client'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        buildContext: 'client'
+    - task: Docker@2
       inputs:
-        containerregistrytype: 'Azure Container Registry'
-        azureSubscription: 'Free Trial (d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b)'
-        azureContainerRegistry: '{"loginServer":"dockertestcr.azurecr.io", "id" : "/subscriptions/d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b/resourceGroups/testRG/providers/Microsoft.ContainerRegistry/registries/dockerTestCR"}'
-        dockerComposeFile: '**/docker-compose.yml'
-        action: 'Push services'
+        containerRegistry: 'dockerTestCR'
+        repository: 'fiegamitdockercomplex_api'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        buildContext: 'server'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'dockerTestCR'
+        repository: 'fiegamitdockercomplex_worker'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        buildContext: 'worker'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'dockerTestCR'
+        repository: 'fiegamitdockercomplex_nginx'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        buildContext: 'nginx'
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'Free Trial (d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b)'
         scriptType: 'pscore'
         scriptLocation: 'inlineScript'
-        inlineScript: 'az container create --resource-group testRG --name multi-docker --image fiegamitdockercomplex_client:$(tag) --os-type Linux --restart-policy OnFailure'
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'Free Trial (d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b)'
-        scriptType: 'pscore'
-        scriptLocation: 'inlineScript'
-        inlineScript: 'az container create --resource-group testRG --name multi-docker --image fiegamitdockercomplex_api:$(tag) --os-type Linux --restart-policy OnFailure'
-
+        inlineScript: 'az deployment group create --resource-group testRG --template-file azuredeploy.json'
