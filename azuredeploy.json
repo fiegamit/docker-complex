@@ -15,19 +15,6 @@
             "metadata": {
                 "description": "imageRegistryLoginServer"
             }
-        },
-        "imageRegistryUsername": {
-            "type": "string",
-            "defaultValue": "dockerTestCR",
-            "metadata": {
-                "description": "imageRegistryUsername"
-            }
-        },
-        "imageRegistryPassword": {
-            "type": "string",
-            "metadata": {
-                "description": "imageRegistryPassword"
-            }
         }
     },
     "variables": {
