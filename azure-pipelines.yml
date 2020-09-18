@@ -33,28 +33,28 @@ stages:
         containerRegistry: 'dockerTestCR'
         repository: 'fiegamitdockercomplex_client'
         command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
+        Dockerfile: 'Dockerfile'
         buildContext: 'client'
     - task: Docker@2
       inputs:
         containerRegistry: 'dockerTestCR'
         repository: 'fiegamitdockercomplex_api'
         command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
+        Dockerfile: 'Dockerfile'
         buildContext: 'server'
     - task: Docker@2
       inputs:
         containerRegistry: 'dockerTestCR'
         repository: 'fiegamitdockercomplex_worker'
         command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
+        Dockerfile: 'Dockerfile'
         buildContext: 'worker'
     - task: Docker@2
       inputs:
         containerRegistry: 'dockerTestCR'
         repository: 'fiegamitdockercomplex_nginx'
         command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
+        Dockerfile: 'Dockerfile'
         buildContext: 'nginx'
     - task: AzureCLI@2
       inputs:
