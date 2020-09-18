@@ -48,4 +48,10 @@ stages:
         scriptType: 'pscore'
         scriptLocation: 'inlineScript'
         inlineScript: 'az container create --resource-group testRG --name multi-docker --image fiegamitdockercomplex_client:$(tag) --os-type Linux --restart-policy OnFailure'
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'Free Trial (d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b)'
+        scriptType: 'pscore'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az container create --resource-group testRG --name multi-docker --image fiegamitdockercomplex_api:$(tag) --os-type Linux --restart-policy OnFailure'
 
