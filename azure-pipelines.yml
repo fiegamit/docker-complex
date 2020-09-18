@@ -1,0 +1,37 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: 'a9b92e0e-38fa-45fc-97c8-018714273196'
+  imageRepository: 'fiegamitdockercomplex'
+  containerRegistry: 'dockertestcr.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/client/Dockerfile.dev'
+  tag: '$(Build.BuildId)'
+  
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: DockerCompose@0
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Free Trial (d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b)'
+        azureContainerRegistry: '{"loginServer":"dockertestcr.azurecr.io", "id" : "/subscriptions/d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b/resourceGroups/testRG/providers/Microsoft.ContainerRegistry/registries/dockerTestCR"}'
+        dockerComposeFile: '**/docker-compose.yml'
+        action: 'Push services'
