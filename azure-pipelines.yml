@@ -40,7 +40,7 @@ stages:
         containerRegistry: 'dockerTestCR'
         repository: 'fiegamitdockercomplex_api'
         command: 'buildAndPush'
-        Dockerfile: 'serve/Dockerfile'
+        Dockerfile: 'server/Dockerfile'
         buildContext: 'server'
     - task: Docker@2
       inputs:
