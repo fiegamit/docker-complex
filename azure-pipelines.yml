@@ -42,3 +42,11 @@ stages:
         azureContainerRegistry: '{"loginServer":"dockertestcr.azurecr.io", "id" : "/subscriptions/d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b/resourceGroups/testRG/providers/Microsoft.ContainerRegistry/registries/dockerTestCR"}'
         dockerComposeFile: '**/docker-compose.yml'
         action: 'Push services'
+    - task: DockerCompose@0
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Free Trial (d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b)'
+        azureContainerRegistry: '{"loginServer":"dockertestcr.azurecr.io", "id" : "/subscriptions/d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b/resourceGroups/testRG/providers/Microsoft.ContainerRegistry/registries/dockerTestCR"}'
+        dockerComposeFile: '**/docker-compose.yml'
+        action: 'Run a Docker Compose command'
+        dockerComposeCommand: 'up'
