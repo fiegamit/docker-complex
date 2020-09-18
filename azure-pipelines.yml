@@ -15,6 +15,7 @@ variables:
   containerRegistry: 'dockertestcr.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/client/Dockerfile.dev'
   tag: '$(Build.BuildId)'
+  REGISTRY_PASS: $(imageRegistryPassword)
   
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -56,9 +57,13 @@ stages:
         command: 'buildAndPush'
         Dockerfile: 'nginx/Dockerfile'
         buildContext: 'nginx'
-    - task: AzureCLI@2
+    - task: AzureResourceGroupDeployment@2
       inputs:
         azureSubscription: 'Free Trial (d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b)'
-        scriptType: 'pscore'
-        scriptLocation: 'inlineScript'
-        inlineScript: 'az deployment group create --resource-group testRG --template-file azuredeploy.json'
+        action: 'Create Or Update Resource Group'
+        resourceGroupName: 'testRG'
+        location: 'West Europe'
+        templateLocation: 'Linked artifact'
+        csmFile: 'azuredeploy.json'
+        overrideParameters: '-imageRegistryPassword $(REGISTRY_PASS)'
+        deploymentMode: 'Incremental'
