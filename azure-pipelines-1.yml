@@ -28,11 +28,9 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - task: AzureResourceManagerTemplateDeployment@3
+    - task: AzureResourceGroupDeployment@2
       inputs:
-        deploymentScope: 'Resource Group'
-        azureResourceManagerConnection: 'Free Trial (d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b)'
-        subscriptionId: 'd0a884f6-ea9b-4c9b-9e8f-8974e6263d0b'
+        azureSubscription: 'Free Trial (d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b)'
         action: 'Create Or Update Resource Group'
         resourceGroupName: 'testRG'
         location: 'West Europe'
@@ -40,3 +38,4 @@ stages:
         csmFile: 'azuredeploy.json'
         overrideParameters: '-imageRegistryPassword $(REGISTRY_PASS)'
         deploymentMode: 'Incremental'
+    
