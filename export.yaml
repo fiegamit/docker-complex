@@ -1,0 +1,49 @@
+additional_properties: {}
+apiVersion: '2018-10-01'
+identity: null
+location: westeurope
+name: multi-docker
+properties:
+  containers:
+  - name: client
+    properties:
+      environmentVariables: []
+      image: dockertestcr.azurecr.io/fiegamitdockercomplex_client:latest
+      ports:
+      - port: 3000
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1.5
+  - name: api
+    properties:
+      environmentVariables: []
+      image: dockertestcr.azurecr.io/fiegamitdockercomplex_api:latest
+      ports:
+      - port: 5000
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1.5
+  - name: multi-docker-nginx
+    properties:
+      environmentVariables: []
+      image: dockertestcr.azurecr.io/fiegamitdockercomplex_nginx:latest
+      ports:
+      - port: 80
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1.5
+  imageRegistryCredentials:
+  - server: dockertestcr.azurecr.io
+    username: dockerTestCR
+  ipAddress:
+    ip: 20.54.221.16
+    ports:
+    - port: 80
+      protocol: TCP
+    type: Public
+  osType: Linux
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
