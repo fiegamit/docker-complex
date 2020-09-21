@@ -72,7 +72,7 @@ stages:
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'Free Trial (d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b)'
-        scriptType: 'ps'
+        scriptType: 'pscore'
         scriptLocation: 'inlineScript'
         inlineScript: |
           az container stop -g testRG -n multi-docker
