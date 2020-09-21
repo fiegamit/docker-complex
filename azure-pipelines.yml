@@ -36,6 +36,9 @@ stages:
         command: 'buildAndPush'
         Dockerfile: 'client/Dockerfile'
         buildContext: 'client'
+        tags: |
+          $(Build.BuildId)
+          latest
     - task: Docker@2
       inputs:
         containerRegistry: 'dockerTestCR'
@@ -43,6 +46,9 @@ stages:
         command: 'buildAndPush'
         Dockerfile: 'server/Dockerfile'
         buildContext: 'server'
+        tags: |
+          $(Build.BuildId)
+          latest
     - task: Docker@2
       inputs:
         containerRegistry: 'dockerTestCR'
@@ -50,6 +56,9 @@ stages:
         command: 'buildAndPush'
         Dockerfile: 'worker/Dockerfile'
         buildContext: 'worker'
+        tags: |
+          $(Build.BuildId)
+          latest
     - task: Docker@2
       inputs:
         containerRegistry: 'dockerTestCR'
@@ -57,6 +66,9 @@ stages:
         command: 'buildAndPush'
         Dockerfile: 'nginx/Dockerfile'
         buildContext: 'nginx'
+        tags: |
+          $(Build.BuildId)
+          latest
     - task: AzureResourceGroupDeployment@2
       inputs:
         azureSubscription: 'Free Trial (d0a884f6-ea9b-4c9b-9e8f-8974e6263d0b)'
